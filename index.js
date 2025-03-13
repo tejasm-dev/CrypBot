@@ -55,33 +55,44 @@ function done(req) {
         let words = req.text.match(/\S+/g);
         let crypto = words.toString().replace(",", "-").toLowerCase();
 
-        api.get(`https://api.coingecko.com/api/v3/coins/${crypto}`).set("x-cg-demo-api-key", "CG-kcGxuD4fFpba8VZhHzhNYMj7").set("accept", "application/json").end((err, res) => {
+        api.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=200&page=1&sparkline=false`).set("x-cg-demo-api-key", "CG-kcGxuD4fFpba8VZhHzhNYMj7").set("accept", "application/json").end((err, res) => {
             if (err === null) {
-                let body = res._body;
+                let body = findCrypto(crypto, res._body);
 
                 let name = body.name;
                 let symbol = body.symbol
 
-                let price = body.market_data.current_price.usd;
-                let cap = body.market_data.market_cap.usd;
+                let price = body.current_price >= 1 ? body.current_price.toLocaleString("en-US") : body.current_price;
+                let cap = body.market_cap >= 1 ? body.market_cap.toLocaleString("en-US") : body.market_cap;
 
-                bot.sendMessage(chatId, `${name} (${symbol})\n\nPrice :  $${price >= 1 ? price.toLocaleString("en-US") : price}\nMarket Cap :  $${cap >= 1 ? cap.toLocaleString("en-US") : cap}`)
+                let change_24h = body.price_change_percentage_24h >= 1 ? body.price_change_percentage_24h.toLocaleString("en-US") : body.price_change_percentage_24h;
+
+                let high_24h = body.high_24h >= 1 ? body.high_24h.toLocaleString("en-US") : body.high_24h;
+                let low_24h = body.low_24h >= 1 ? body.low_24h.toLocaleString("en-US") : body.low_24h;
+
+                bot.sendMessage(chatId, `${name} (${symbol})\n\nPrice :  $${price}\nMarket Cap :  $${cap}\nPrice Change (24hr) : ${change_24h}\n24hr High : ${high_24h}\n24hr Low : ${low_24h}`);
             }
 
             else {
                 let words = req.text.match(/\S+/g);
                 let crypto = words.toString().replace(",", "").toLowerCase();
 
-                api.get(`https://api.coingecko.com/api/v3/coins/${crypto}`).set("x-cg-demo-api-key", "CG-kcGxuD4fFpba8VZhHzhNYMj7").set("accept", "application/json").end((err, res) => {
+                api.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=200&page=1&sparkline=false`).set("x-cg-demo-api-key", "CG-kcGxuD4fFpba8VZhHzhNYMj7").set("accept", "application/json").end((err, res) => {
                     if (err === null) {
-                        let body = res._body;
+                        let body = findCrypto(crypto, res._body);
 
                         let name = body.name;
+                        let symbol = body.symbol
 
-                        let price = body.market_data.current_price.usd;
-                        let cap = body.market_data.market_cap.usd;
+                        let price = body.current_price >= 1 ? body.current_price.toLocaleString("en-US") : body.current_price;
+                        let cap = body.market_cap >= 1 ? body.market_cap.toLocaleString("en-US") : body.market_cap;
 
-                        bot.sendMessage(chatId, `${name}\n\nPrice :  $${price >= 1 ? price.toLocaleString("en-US") : price}\nMarket Cap :  $${cap >= 1 ? cap.toLocaleString("en-US") : cap}`)
+                        let change_24h = body.price_change_percentage_24h >= 1 ? body.price_change_percentage_24h.toLocaleString("en-US") : body.price_change_percentage_24h;
+
+                        let high_24h = body.high_24h >= 1 ? body.high_24h.toLocaleString("en-US") : body.high_24h;
+                        let low_24h = body.low_24h >= 1 ? body.low_24h.toLocaleString("en-US") : body.low_24h;
+
+                        bot.sendMessage(chatId, `${name} (${symbol})\n\nPrice :  $${price}\nMarket Cap :  $${cap}\nPrice Change (24hr) : ${change_24h}\n24hr High : ${high_24h}\n24hr Low : ${low_24h}`);
                     }
 
                     else {
@@ -91,4 +102,12 @@ function done(req) {
             }
         });
     }
+}
+
+function findCrypto(crypto, array) {
+    return array.find(e =>
+        e.id.toLowerCase() === crypto.toLowerCase() ||
+        e.name.toLowerCase() === crypto.toLowerCase() ||
+        e.symbol.toLowerCase() === crypto.toLowerCase()
+    );
 }
