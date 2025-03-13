@@ -62,10 +62,10 @@ function done(req) {
                 let name = body.name;
                 let symbol = body.symbol
 
-                let price = body.market_data.current_price.usd.toLocaleString("en-US");
-                let cap = body.market_data.market_cap.usd.toLocaleString("en-US");
+                let price = body.market_data.current_price.usd;
+                let cap = body.market_data.market_cap.usd;
 
-                bot.sendMessage(chatId, `${name} (${symbol})\n\nPrice :  $${price}\nMarket Cap :  $${cap}`)
+                bot.sendMessage(chatId, `${name} (${symbol})\n\nPrice :  $${price >= 1 ? price.toLocaleString("en-US") : price}\nMarket Cap :  $${cap >= 1 ? cap.toLocaleString("en-US") : cap}`)
             }
 
             else {
@@ -78,10 +78,10 @@ function done(req) {
 
                         let name = body.name;
 
-                        let price = body.market_data.current_price.usd.toLocaleString("en-US");
-                        let cap = body.market_data.market_cap.usd.toLocaleString("en-US");
+                        let price = body.market_data.current_price.usd;
+                        let cap = body.market_data.market_cap.usd;
 
-                        bot.sendMessage(chatId, `${name}\n\nPrice :  $${price}\nMarket Cap :  $${cap}`)
+                        bot.sendMessage(chatId, `${name}\n\nPrice :  $${price >= 1 ? price.toLocaleString("en-US") : price}\nMarket Cap :  $${cap >= 1 ? cap.toLocaleString("en-US") : cap}`)
                     }
 
                     else {
