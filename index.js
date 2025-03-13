@@ -3,11 +3,11 @@ const api = require("superagent");
 
 require("dotenv").config();
 
-const token = process.env.TOKEN;
+const token = process.env.TELEGRAM_TOKEN;
 
 const bot = new telegramBot(token, { polling: true });
 
-const intro = `\nThis is Cryp Bot @thecryp_bot\nA Telegram based crypto price telling bot which tells you the current price of the crypto you ask for.\nFor asking, just write the name of the crypto and our bot will tell you the price of that crypto in us dollars.\n\nThanks!`;
+const intro = `\nThis is Cryp Bot @thecryp_bot\n\nA Telegram based crypto price telling bot which tells you the current price of the crypto you ask for.\nFor asking, just write the name of the crypto and our bot will tell you the price of that crypto in us dollars.\n\nThanks!`;
 
 bot.on("message", done);
 
@@ -29,7 +29,7 @@ function done(req) {
     }
 
     else if (req.text === "/list") {
-        api.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=200&page=1&sparkline=false`).set("accept", "application/json").end((err, res) => {
+        api.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=200&page=1&sparkline=false`).set("x-cg-demo-api-key", "CG-kcGxuD4fFpba8VZhHzhNYMj7").set("accept", "application/json").end((err, res) => {
             if (err === null) {
                 let str = "";
 
@@ -45,6 +45,7 @@ function done(req) {
             }
 
             else {
+                console.log(err);
                 bot.sendMessage(chatId, "Error!\nSomething went wrong");
             }
         });
@@ -54,7 +55,7 @@ function done(req) {
         let words = req.text.match(/\S+/g);
         let crypto = words.toString().replace(",", "-").toLowerCase();
 
-        api.get(`https://api.coingecko.com/api/v3/coins/${crypto}`).set("accept", "application/json").end((err, res) => {
+        api.get(`https://api.coingecko.com/api/v3/coins/${crypto}`).set("x-cg-demo-api-key", "CG-kcGxuD4fFpba8VZhHzhNYMj7").set("accept", "application/json").end((err, res) => {
             if (err === null) {
                 let body = res._body;
 
@@ -71,7 +72,7 @@ function done(req) {
                 let words = req.text.match(/\S+/g);
                 let crypto = words.toString().replace(",", "").toLowerCase();
 
-                api.get(`https://api.coingecko.com/api/v3/coins/${crypto}`).set("accept", "application/json").end((err, res) => {
+                api.get(`https://api.coingecko.com/api/v3/coins/${crypto}`).set("x-cg-demo-api-key", "CG-kcGxuD4fFpba8VZhHzhNYMj7").set("accept", "application/json").end((err, res) => {
                     if (err === null) {
                         let body = res._body;
 
