@@ -1,0 +1,17 @@
+{
+  "name": "the-cryp-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "author": "Code Boy",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "node-telegram-bot-api": "^0.57.0",
+    "superagent": "^7.1.6"
+  }
+}
