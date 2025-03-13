@@ -1,1 +1,3 @@
-.env.TOKEN
+node_modules
+logo.png
+.env
