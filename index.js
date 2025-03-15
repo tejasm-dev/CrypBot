@@ -35,7 +35,7 @@ function done(req) {
     // command to list 200 crypto currencies
     else if (req.text === "/list") {
         // Get request on free CoinGecko API
-        api.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&page=1&sparkline=false`).set("x-cg-demo-api-key", apikey).set("accept", "application/json").end((err, res) => {
+        api.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&per_page=200&order=market_cap_desc&page=1&sparkline=false`).set("x-cg-demo-api-key", apikey).set("accept", "application/json").end((err, res) => {
             if (err === null) {
                 let str = "";
 
@@ -62,38 +62,38 @@ function done(req) {
         let words = req.text.match(/\S+/g);
         let crypto = words.toString().replace(",", "-").toLowerCase();  // if user writes "shiba inu", this will replace it to "shiba-inu"
 
-        api.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&page=1&sparkline=false`).set("x-cg-demo-api-key", apikey).set("accept", "application/json").end((err, res) => {
+        api.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&per_page=200&order=market_cap_desc&page=1&sparkline=false`).set("x-cg-demo-api-key", apikey).set("accept", "application/json").end((err, res) => {
             if (err === null) {
                 // extract specific crypto from the list
                 let body = findCrypto(crypto, res._body);
 
                 // if crypto is not found
                 if (!body) {
-                    let words = req.text.match(/\S+/g);
-                    let crypto = words.toString().replace(",", "").toLowerCase();  // if user writes "binance coin", this will replace it to "binancecoin"
+                    let words2 = req.text.match(/\S+/g);
+                    let crypto2 = words2.toString().replace(",", "").toLowerCase();  // if user writes "binance coin", this will replace it to "binancecoin"
 
-                    api.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&page=1&sparkline=false`).set("x-cg-demo-api-key", apikey).set("accept", "application/json").end((err, res) => {
-                        if (err === null) {
-                            let body = findCrypto(crypto, res._body);
+                    api.get(`https://api.coingeco.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=200&page=1&sparkline=false`).set("x-cg-demo-api-key", apikey).set("accept", "application/json").end((err2, res2) => {
+                        if (err2 === null) {
+                            let body2 = findCrypto(crypto2, res2._body);
 
                             // if crypto is again not found
-                            if (!body) {
+                            if (!body2) {
                                 bot.sendMessage(chatId, `No Crypto Found "${req.text}"`);
                                 return;
                             }
 
-                            let name = body.name;
-                            let symbol = body.symbol;
+                            let name = body2.name;
+                            let symbol = body2.symbol;
 
                             // convert numbers from 1000000 to 1,000,000 if the number is more than 1
 
-                            let price = body.current_price >= 1 ? body.current_price.toLocaleString("en-US") : body.current_price;
-                            let cap = body.market_cap >= 1 ? body.market_cap.toLocaleString("en-US") : body.market_cap;
+                            let price = body2.current_price >= 1 ? body2.current_price.toLocaleString("en-US") : body2.current_price;
+                            let cap = body2.market_cap >= 1 ? body2.market_cap.toLocaleString("en-US") : body2.market_cap;
 
-                            let change_24h = body.price_change_percentage_24h >= 1 ? body.price_change_percentage_24h.toLocaleString("en-US") : body.price_change_percentage_24h;
+                            let change_24h = body2.price_change_percentage_24h >= 1 ? body2.price_change_percentage_24h.toLocaleString("en-US") : body2.price_change_percentage_24h;
 
-                            let high_24h = body.high_24h >= 1 ? body.high_24h.toLocaleString("en-US") : body.high_24h;
-                            let low_24h = body.low_24h >= 1 ? body.low_24h.toLocaleString("en-US") : body.low_24h;
+                            let high_24h = body2.high_24h >= 1 ? body2.high_24h.toLocaleString("en-US") : body2.high_24h;
+                            let low_24h = body2.low_24h >= 1 ? body2.low_24h.toLocaleString("en-US") : body2.low_24h;
 
                             // send crypto data
                             bot.sendMessage(chatId, `${name} (${symbol})\n\nPrice :  $${price}\nMarket Cap :  $${cap}\nPrice Change (24hr) : ${change_24h}\n24hr High : ${high_24h}\n24hr Low : ${low_24h}`);
@@ -107,6 +107,8 @@ function done(req) {
                             return;
                         }
                     });
+
+                    return;
                 }
 
                 let name = body.name;
