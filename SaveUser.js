@@ -19,10 +19,10 @@ module.exports = async function saveUser(telegramID, firstname, username) {
         });
 
         // Save the new user to the database
-        await newUser.save();
-        console.log("User saved successfully.");
+        await newUser.save()
+            .then(() => {})
+            .catch(() => {});
     }
-    catch (error) {
-        console.error("Error saving user:", error);
-    }
+    // If error, do nothing!
+    catch (err) { }
 }
