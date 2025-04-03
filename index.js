@@ -2,6 +2,8 @@ const telegramBot = require("node-telegram-bot-api");
 const api = require("superagent");
 const mongoose = require("mongoose");
 
+const saveUser = require("./SaveUser");  // function to save user data in MongoDB
+
 require("dotenv").config();
 
 mongoose.connect(process.env.MONGO_CONNECTION_STRING);
@@ -27,6 +29,10 @@ function done(req) {
 
     // start conversation
     if (req.text === "/start" | req.text === "/") {
+        saveUser(req.chat.id, req.from.first_name, req.from.username)  // save user data in MongoDB
+            .then(() => {})
+            .catch((err) => {});
+
         bot.sendMessage(chatId, `Hi, ${req.from.first_name}\n${intro}`)
     }
 
