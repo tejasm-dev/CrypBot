@@ -3,7 +3,7 @@ const api = require("superagent");
 
 require("dotenv").config();
 
-const token = process.env.TELEGRAM_TOKEN;  // telegram bot token
+const token = process.env.TELEGRAM_TOKEN;  // Telegram bot token
 const apikey = process.env.APIKEY;  // CoinGecko Free API Key
 
 const bot = new telegramBot(token, { polling: true });
