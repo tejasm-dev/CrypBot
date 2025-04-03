@@ -1,7 +1,10 @@
 const telegramBot = require("node-telegram-bot-api");
 const api = require("superagent");
+const mongoose = require("mongoose");
 
 require("dotenv").config();
+
+mongoose.connect(process.env.MONGO_CONNECTION_STRING);
 
 const token = process.env.TELEGRAM_TOKEN;  // Telegram bot token
 const apikey = process.env.APIKEY;  // CoinGecko Free API Key
