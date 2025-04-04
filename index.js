@@ -33,7 +33,7 @@ function done(req) {
             .then(() => {})
             .catch((err) => {});
 
-        bot.sendMessage(chatId, `Hi, ${req.from.first_name}\n${intro}`)
+        bot.sendMessage(chatId, `Hi, ${req.from.first_name}\n${intro}`);
     }
 
     // developer info
@@ -48,6 +48,7 @@ function done(req) {
             if (err === null) {
                 let str = "";
 
+                // loop through the list of 200 crypto currencies and add them to the string
                 for (let i = 0; i < res._body.length; i++) {
                     const e = res._body[i];
 
