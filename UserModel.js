@@ -15,7 +15,7 @@ const UserSchema = new mongoose.Schema({
     },
     joined: {
         type: Date,
-        default: Date.now
+        required: true
     },
     lastMessage: {
         type: Date,

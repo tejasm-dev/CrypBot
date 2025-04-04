@@ -11,8 +11,9 @@ module.exports = async function saveUser(telegramID, firstname) {
 
             Users.findOneAndUpdate(
                 { telegramID },
-                { $set: { lastMessage: Date.now() }
-            }).then(() => {}).catch(() => {});
+                {
+                    $set: { lastMessage: getCurrentDate() },
+                }).then(() => { }).catch(() => { });
 
             return;
         }
@@ -21,14 +22,23 @@ module.exports = async function saveUser(telegramID, firstname) {
         const newUser = new Users({
             telegramID: telegramID,
             firstname: firstname,
-            lastMessage: Date.now()
+            lastMessage: getCurrentDate(),
+            joined: getCurrentDate(),  // Set the joined date to the current date
         });
 
         // Save the new user to the database
         await newUser.save()
-            .then(() => {})
-            .catch(() => {});
+            .then(() => { })
+            .catch(() => { });
     }
     // If error, do nothing!
     catch (err) { }
+}
+
+function getCurrentDate() {
+    // Funtion to get the current date in Indian Standard Timezone
+
+    const now = new Date();
+    const istOffset = 5.5 * 60 * 60 * 1000; // 5 hours 30 minutes in ms
+    return new Date(now.getTime() + istOffset);
 }
