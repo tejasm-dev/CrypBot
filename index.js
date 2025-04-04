@@ -29,9 +29,9 @@ function done(req) {
 
     // start conversation
     if (req.text === "/start" | req.text === "/") {
-        saveUser(req.chat.id, req.from.first_name, req.from.username)  // save user data in MongoDB
+        saveUser(req.from.id, req.from.first_name)  // save user data in MongoDB
             .then(() => {})
-            .catch((err) => {});
+            .catch(() => {});
 
         bot.sendMessage(chatId, `Hi, ${req.from.first_name}\n${intro}`);
     }

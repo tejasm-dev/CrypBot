@@ -13,13 +13,13 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    username: {
-        type: String,
-        required: true
-    },
     joined: {
         type: Date,
         default: Date.now
+    },
+    lastMessage: {
+        type: Date,
+        required: true
     }
 });
 
