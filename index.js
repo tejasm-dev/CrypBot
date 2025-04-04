@@ -20,6 +20,11 @@ bot.on("message", done);  // message event handler
 function done(req) {
     let chatId = req.chat.id;
 
+    // save user data in MongoDB
+    saveUser(req.from.id, req.from.first_name)
+        .then(() => { })
+        .catch(() => { });
+
     // handling polling errors
     bot.on("polling_error", function (err) {
         if (err.code === "ERR_UNESCAPED_CHARACTERS") {
@@ -29,10 +34,6 @@ function done(req) {
 
     // start conversation
     if (req.text === "/start" | req.text === "/") {
-        saveUser(req.from.id, req.from.first_name)  // save user data in MongoDB
-            .then(() => {})
-            .catch(() => {});
-
         bot.sendMessage(chatId, `Hi, ${req.from.first_name}\n${intro}`);
     }
 
@@ -125,7 +126,7 @@ function done(req) {
                 let symbol = body.symbol;
 
                 // convert numbers from 1000000 to 1,000,000 if the number is more than 1
-                
+
                 let price = body.current_price >= 1 ? body.current_price.toLocaleString("en-US") : body.current_price;
                 let cap = body.market_cap >= 1 ? body.market_cap.toLocaleString("en-US") : body.market_cap;
 
