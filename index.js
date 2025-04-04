@@ -6,7 +6,7 @@ const saveUser = require("./SaveUser");  // function to save user data in MongoD
 
 require("dotenv").config();
 
-mongoose.connect(process.env.MONGO_CONNECTION_STRING);
+mongoose.connect(process.env.MONGO_CONNECTION_STRING);  // connect to MongoDB using Mongoose for storing user data
 
 const token = process.env.TELEGRAM_TOKEN;  // Telegram bot token
 const apikey = process.env.APIKEY;  // CoinGecko Free API Key
