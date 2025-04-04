@@ -6,3 +6,6 @@
 
 [Deployment]
 -  Oracle Cloud
+
+[Database]
+-  MongoDB Atlas
