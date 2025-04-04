@@ -36,7 +36,7 @@ module.exports = async function saveUser(telegramID, firstname) {
 }
 
 function getCurrentDate() {
-    // Funtion to get the current date in Indian Standard Timezone
+    // Function to get the current date in Indian Standard Timezone
 
     const now = new Date();
     const istOffset = 5.5 * 60 * 60 * 1000; // 5 hours 30 minutes in ms
