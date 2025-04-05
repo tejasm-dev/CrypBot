@@ -4,8 +4,8 @@
 [APIs]
 -  CoinGecko API ( fetching data of crypto currencies )
 
-[Deployment]
--  Oracle Cloud
-
 [Database]
 -  MongoDB Atlas
+
+[Deployment]
+-  Oracle Cloud
