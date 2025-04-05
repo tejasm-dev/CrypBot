@@ -11,8 +11,7 @@ module.exports = async function saveUser(telegramID, firstname) {
 
             Users.findOneAndUpdate(
                 { telegramID },
-                {
-                    $set: { lastMessage: getCurrentDate() },
+                { $set: { lastMessage: getCurrentDate() },
                 }).then(() => { }).catch(() => { });
 
             return;
